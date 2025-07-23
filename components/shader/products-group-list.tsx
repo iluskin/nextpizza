@@ -20,16 +20,17 @@ interface Props {
 export const ProductsGroupList: React.FC<Props> = ({ title, items, listClassName, categoryId, className }) => {
   const setActiveCategoryId = useCategoryStore((state) => state.setActiveId);
 
-  const intersectionRef = React.useRef(null);
+  const intersectionRef = React.useRef(null) as React.RefObject<HTMLElement>;
+
   const intersection = useIntersection(intersectionRef, {
     threshold: 0.4,
   });
 
   React.useEffect(() => {
-    if (intersection?.isIntersecting) {
+    if (intersection && intersection.isIntersecting) {
       setActiveCategoryId(categoryId);
     }
-  }, [intersection?.isIntersecting]);
+  }, [intersection]);
 
   return (
     <div className={className} id={title} ref={intersectionRef}>
